@@ -29,9 +29,9 @@ x0, y0, dx, dy, ix, iy = 251, 519, 96, 160, 114, 178
 # xc1：两张牌之间的横/纵坐标差
 x1, y1, cx1, cy1, xc1 = 351, 177, 142, 238, 162
 # 胜冠之试中，角色牌的坐标：
-# x1，y1：第一张牌的左上角坐标
-# cx1，cy1：角色牌大小
-# xc1：两张牌之间的横/纵坐标差
+# x2，y2：第一张牌的左上角坐标
+# cx2，cy2：角色牌大小
+# xc2：两张牌之间的横/纵坐标差
 x2, y2, cx2, cy2, xc2 = 589, 228, 96, 160, 114
 
 
@@ -110,21 +110,37 @@ def toString(deck):
     return deckcode, dstr
 
 # 将字符串代表的卡组生成卡组图片
-def toDeck(s):
+def toDeck(s,mode=0):
     ss = s.split(',')
-    background = Image.open("module.png")
     card = card_imgs[0]
-    c_card=card.resize((cx1, cy1))
+    if mode==0:
+        background = Image.open("module.png")
+        c_card = card.resize((cx1, cy1))
+    elif mode==1:
+        background = Image.open("module2.png")
+        c_card = card.resize((cx2, cy2))
+
+
     mask = Image.new('L', card.size, 255)
     c_mask = Image.new('L', c_card.size, 255)
-    for i in range(3):
-        for j in range(len(characterlist)):
-            if ss[i] == characterlist['name'][j] or ss[i] == characterlist['ID'][j]:
-                card = character_imgs[j]
-                card = card.resize((cx1, cy1))
-                position = (x1 + xc1 * i, y1)
-                background.paste(card, position, c_mask)
-                break
+    if mode==0:
+        for i in range(3):
+            for j in range(len(characterlist)):
+                if ss[i] == characterlist['name'][j] or ss[i] == characterlist['ID'][j]:
+                    card = character_imgs[j]
+                    card = card.resize((cx1, cy1))
+                    position = (x1 + xc1 * i, y1)
+                    background.paste(card, position, c_mask)
+                    break
+    elif mode==1:
+        for i in range(3):
+            for j in range(len(characterlist)):
+                if ss[i] == characterlist['name'][j] or ss[i] == characterlist['ID'][j]:
+                    card = character_imgs[j]
+                    card = card.resize((cx2, cy2))
+                    position = (x2 + xc2 * i, y2)
+                    background.paste(card, position, c_mask)
+                    break
 
     for i in range(3,len(ss)):
         for j in range(len(cardlist)):

@@ -14,7 +14,7 @@ print(c2)
 print(s1)
 print(s2)
 # 将文字表述的卡组信息保存为图片
-GI.toDeck(s1).save('GIoutput//new.png')
+GI.toDeck(s1,1).save('GIoutput//new.png')
 # 生成随机卡组
 r.randeck(True,character='烟绯',path='随机卡组.png')
 
